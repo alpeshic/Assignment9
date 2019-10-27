@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>jQuery Events</title>
+  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="scripts/jquery-3.4.1.js"></script>
+  <script>
+	  $(document).ready(function(){
+		//16
+		$("#btnClick").click(function(){
+			alert("Button Clicked!");
+		});
+
+		//17
+		$("#btnClickBind").bind("click", function(){
+			alert("Click event using bind");
+		});
+		//18
+		$("#btnClickOn").bind("click", function(){
+			alert("Click event using on");
+		});
+		//19
+		$("#btnClickSingleHandler1, #btnClickSingleHandler2").on("click", function(e){
+			alert('Button ' + $(this).text() + ' clicked');
+		});
+		//20
+		$("#dvTouchEvents").height(400).width(400)
+			.css('border', '1px solid black')
+			.on("click mouseenter mouseleave", function(e){
+				alert(e.type);
+			});
+		//21
+		$("#dvTouchEventsWithSpan").height(400).width(400)
+			.css('border', '1px solid black')
+			.on("click mouseenter mouseleave", function(e){
+				$(this).next().text(e.type);
+			});
+
+		//22
+		$("#link").click(function(e)
+		{	
+			e.preventDefault(); //1
+			$(this).css("color", "red"); //2
+			alert(e.target.nodeName); //3 
+		});
+		//23
+		$(window).resize(function(e){
+			$("#dvBrowserHeightWidth").text('Window width: '+ $(window).width() + ' height: ' + $(window).height());
+		});
+		//24
+		$("#txtInputFocus").on("focusin focusout", function(e){
+			if(e.type === "focusin")
+				$(this).css("background-color", "lightgray");
+			else
+			$(this).css("background-color", "white");
+		});
+
+		//25
+		$("#frmValidate").submit(function(e){
+			e.preventDefault();
+			var name = $('#txtName');
+			var email = $("#txtEmail");
+			var alertText = '';
+			name.css("border", "");
+			name.css("border", "");
+
+			if(name.val().trim() === ''){
+				name.css("border", "2px solid red");
+				alertText = "Name";
+			}
+			if(email.val().trim() === '')
+			{
+				email.css("border", "2px solid red");
+				if(alertText === '')
+					alertText = "Email";
+				else
+					alertText += " and email";
+			}
+			if(email.val().trim() !== '' && name.val().trim() !== ''){
+				name.css("border", "2px solid green");
+				email.css("border", "2px solid green");
+			}
+			if(alertText !== '')
+			{
+				alertText += " required";
+				alert(alertText);
+			} 
+		});
+	  });
+  </script>
+</head>
+
+<body>
+	<main>
+		<p>16. <br><button id="btnClick">Click Event</button></p>
+		<p>17. <br><button id="btnClickBind">Click Event Bind</button></p>
+		<p>18. <br><button id="btnClickOn">Click Event On</button></p>
+		<p>19. <br><button id="btnClickSingleHandler1">Click Single Handler 1</button><button id="btnClickSingleHandler2">Click Single Handler 2</button></p>
+		<p>20. <br><div id="dvTouchEvents"></div></p>
+		<p>21. <br><div id="dvTouchEventsWithSpan"></div><span></span></p>
+		<p>22. <br><a id="link" href="modulemedia.com">Module media</a></p>
+		<p>23. <br><div id="dvBrowserHeightWidth"></div></p>
+		<p>24. <br><input type="text" id="txtInputFocus"></p>
+		<p>25. <br>
+			<form id="frmValidate">
+				<label for="txtName">Name: </label><input id="txtName" type="text"><br>
+				<label for="txtEmail">Email: </label><input id="txtEmail" type="text"><br>
+				<input type="submit" id="btnSubmit" value="Submit">
+			</form>
+		</p>
+	</main>
+</body>
+</html>
